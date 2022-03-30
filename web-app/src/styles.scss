@@ -1,0 +1,58 @@
+/* You can add global styles to this file, and also import other style files */
+@import './assets/css/bootstrap.min.css';
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+@keyframes fadeInUp {
+  from {
+      transform: translate3d(0,40px,0)
+  }
+
+  to {
+      transform: translate3d(0,0,0);
+      opacity: 1
+  }
+}
+
+@-webkit-keyframes fadeInUp {
+  from {
+      transform: translate3d(0,40px,0)
+  }
+
+  to {
+      transform: translate3d(0,0,0);
+      opacity: 1
+  }
+}
+
+.animated {
+  animation-duration: 1s;
+  animation-fill-mode: both;
+  -webkit-animation-duration: 1s;
+  -webkit-animation-fill-mode: both
+}
+
+.animatedFadeInUp {
+  opacity: 0
+}
+
+.fadeInUp {
+  opacity: 0;
+  animation-name: fadeInUp;
+  -webkit-animation-name: fadeInUp;
+}
+
+.animate-slide {
+  -webkit-animation: slide 0.5s forwards;
+  animation: slide 1s forwards;
+}
+
+@-webkit-keyframes slide {
+  0% {transform: translateX(1000px);opacity: 0;}
+  100% { transform: translateX(0px);opacity: 100%; }
+}
+
+@keyframes slide {
+  0% {transform: translateX(1000px);opacity: 1;}
+  100% { transform: translateX(0px);opacity: 100%; }
+}
