@@ -1,0 +1,94 @@
+<nav class="navbar navbar-accent bg-secondary text-white" style="padding: 0.25em 0.5em;">
+  <a class="nav-link" [routerLink]="['/']" [state]="{tab:2}"> <img src="/assets/img/left-arrow.svg" width="30" height="30" class="d-inline-block align-top" alt="Go back" style="filter: invert(100%)"></a>
+  <h3 class="">
+      ID: <span class="font-weight-lighter">{{courseId}}</span>
+  </h3>
+</nav>
+<div>
+  <div class="animated animatedFadeInUp fadeInUp mat-elevation-z8 m-auto" style="width: 90%;">
+    <mat-accordion multi="true">
+      <mat-expansion-panel expanded="true">
+        <!-- Course details -->
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Course data
+          </mat-panel-title>
+          <mat-panel-description>
+            Information about the Course
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <!-- Course Data Container -->
+        <ng-container *ngIf="loading$.value">
+          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        </ng-container>
+        <div *ngIf="!loading$.value" class="p-4 row">
+          <div class="col-sm-4">
+            <img src="/assets/img/avatar.svg" height="128" />
+          </div>
+          <div class="col-sm-6">
+            <div class="w-100">
+              <h4>
+                Name:
+                <span class="font-weight-lighter text-capitalize">{{ courseDetails?.course_name }} </span>
+              </h4>
+            </div>
+            <div class="w-100">
+                <h4>
+                  CID:
+                  <h5 class="d-inline-block font-weight-lighter">{{ courseDetails?.course_id }}</h5>
+                </h4>
+              </div>
+            <div class="w-100 pb-4">
+              <h5>
+                Professor(s):
+                <span class="font-weight-lighter text-capitalize">{{professorList.value}} </span>
+              </h5>
+            </div>
+            <div class="w-100">
+              <h5>
+                Department:
+                <a class="font-weight-lighter">
+                  {{ courseDetails?.department_id }}
+                </a>
+              </h5>
+            </div>
+          </div>
+        </div>
+      </mat-expansion-panel>
+      <!-- Section Detail -->
+      <ng-container *ngIf="displaySection.value">
+        <app-section-details [sectionRecord]="sectionRecord" [professorId]="professorId"></app-section-details>
+      </ng-container>
+
+
+      <mat-expansion-panel expanded="true">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Course Records
+          </mat-panel-title>
+          <mat-panel-description>
+            History of the course offerings
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <div class="row border-top pt-2">
+          <div class="col-sm-4 text-center">
+            <h3>
+              {{courseHistory$.value.length}}
+            </h3>
+            <p>Times offered</p>
+          </div>
+          <div class="col-sm-4">
+          </div>
+          <div class="col-sm-4 text-center">
+            <h3>
+              {{courseTotal}}
+            </h3>
+            <p>Students Completed</p>
+          </div>
+        </div>
+        <app-history-table [dataSource$]="courseHistory$"></app-history-table>
+
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+</div>

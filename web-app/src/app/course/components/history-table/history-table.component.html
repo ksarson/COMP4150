@@ -1,0 +1,51 @@
+<table mat-table [dataSource]="tableDataSource" matSort class="mat-elevation-z8">
+
+  <!--- Note that these columns can be defined in any order.
+          The actual rendered columns are set as a property on the row definition" -->
+
+  <!-- Section Rec Column -->
+  <ng-container matColumnDef="section_id">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Section ID </th>
+    <td mat-cell *matCellDef="let element"> {{element.section_id}} </td>
+  </ng-container>
+
+  <!-- Course ID Column -->
+  <ng-container matColumnDef="course_id">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Course ID </th>
+    <td mat-cell *matCellDef="let element"> {{element.course_id}} </td>
+  </ng-container>
+
+  <!-- Course Name Column -->
+  <ng-container matColumnDef="course_name">
+    <th mat-header-cell *matHeaderCellDef>Course Name</th>
+    <td mat-cell *matCellDef="let element"> {{element.course_name}} </td>
+  </ng-container>
+
+  <!-- Year Column -->
+  <ng-container matColumnDef="year">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Year </th>
+    <td mat-cell *matCellDef="let element"> <strong>{{element.semester}}</strong>{{element.year}} </td>
+  </ng-container>
+
+    <!-- Professor Column -->
+    <ng-container matColumnDef="professor_name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Professor </th>
+      <td mat-cell *matCellDef="let element"> <strong>{{element.last_name}}</strong>, {{element.first_name}} </td>
+    </ng-container>
+
+  <!-- Students Column -->
+  <ng-container matColumnDef="num_students">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Number of Students </th>
+    <td mat-cell *matCellDef="let element"> {{element.num_students}}</td>
+  </ng-container>
+
+  <!-- Status Column -->
+  <!-- <ng-container matColumnDef="status">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
+    <td mat-cell *matCellDef="let element"
+    [ngStyle]="{color: element.status === 'Pass' ? 'green': 'red'}"
+    > {{element.status}}</td>
+  </ng-container> -->
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="rowClicked(row)"></tr>
+</table>

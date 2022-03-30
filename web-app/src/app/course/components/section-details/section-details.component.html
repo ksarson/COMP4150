@@ -1,0 +1,40 @@
+<mat-expansion-panel expanded="true" class="animate-slide" hideToggle="true">
+  <!-- Course details -->
+  <mat-expansion-panel-header>
+      <mat-panel-title>
+        Section data
+      </mat-panel-title>
+      <mat-panel-description>
+        Records for the specific section
+        <div class="d-inline-block ml-auto">
+            <button class="btn btn-sm btn-dark" (click)="hideSection()">Close</button>
+        </div>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <div class="row border-top pt-2">
+        <div class="col-sm-4 text-center">
+          <h3>
+            {{studentList$.value.length}}
+          </h3>
+          <p>Students</p>
+        </div>
+        <div class="col-sm-4">
+            <h4 routerLink="['/professor']">
+                {{professorValue$.value?.last_name}},
+                <span class="font-weight-lighter">
+                  {{professorValue$.value?.first_name}}
+                </span>
+            </h4>
+            <p>Taught By</p>
+        </div>
+        <div class="col-sm-4 text-center">
+          <h3
+            [ngClass]="{'text-warning': sectionAvg < 60 && sectionAvg > 50, 'text-danger': sectionAvg < 51, 'text-success': sectionAvg >= 60}"
+          >
+            {{sectionAvg | number}}%
+          </h3>
+          <p>Section Average</p>
+        </div>
+      </div>
+    <app-section-table [dataSource$]="studentList$"></app-section-table>
+</mat-expansion-panel>
