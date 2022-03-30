@@ -1,0 +1,40 @@
+<div class="mat-elevation-z8" style="height: 85vh; overflow: auto; width: 90%; margin: auto;">
+    <table mat-table [dataSource]="tableDataSource" matSort>
+
+        <!--- Note that these columns can be defined in any order.
+              The actual rendered columns are set as a property on the row definition" -->
+
+        <!-- Student ID Column -->
+        <ng-container matColumnDef="student_id">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Student ID </th>
+          <td mat-cell *matCellDef="let element"> {{element.student_id}} </td>
+        </ng-container>
+
+        <!-- Last Name Column -->
+        <ng-container matColumnDef="last_name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Name </th>
+          <td mat-cell *matCellDef="let element"> {{element.last_name}} </td>
+        </ng-container>
+
+        <!-- First Name Column -->
+        <ng-container matColumnDef="first_name">
+          <th mat-header-cell *matHeaderCellDef> First Name </th>
+          <td mat-cell *matCellDef="let element"> {{element.first_name}} </td>
+        </ng-container>
+
+        <!-- Department Column -->
+        <ng-container matColumnDef="department_id">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Department </th>
+          <td mat-cell *matCellDef="let element"> {{element.department_id}} </td>
+        </ng-container>
+
+            <!-- Department Column -->
+            <ng-container matColumnDef="gpa">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> GPA </th>
+                <td mat-cell *matCellDef="let element"> {{element.gpa}}% </td>
+              </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="rowClicked(row)"></tr>
+      </table>
+</div>

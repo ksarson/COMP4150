@@ -1,0 +1,126 @@
+<mat-progress-bar *ngIf="loading$.value" mode="indeterminate"></mat-progress-bar>
+<nav>
+  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+    <a class="nav-item nav-link" [ngClass]="{'active': currentTabIndex == 0}" id="nav-home-tab" data-toggle="tab"
+      role="tab" aria-controls="nav-home" (click)="showTab(0)">Home</a>
+    <a class="nav-item nav-link" [ngClass]="{'active': currentTabIndex == 1}" id="nav-student-tab" data-toggle="tab"
+      role="tab" (click)="showTab(1)">Students</a>
+    <a class="nav-item nav-link" [ngClass]="{'active': currentTabIndex == 2}" id="nav-course-tab" data-toggle="tab"
+      role="tab" (click)="showTab(2)">Courses</a>
+    <a class="nav-item nav-link" [ngClass]="{'active': currentTabIndex == 3}" id="nav-course-tab" data-toggle="tab"
+      role="tab" (click)="showTab(3)">Professors</a>
+  </div>
+</nav>
+<!-- Info container -->
+<ng-container *ngIf="currentTabIndex == 0">
+  <div class="m-4 animated animatedFadeInUp fadeInUp">
+    <h3 class="font-weight-lighter">Welcome to our Project</h3>
+    <h4 class="mb-4">What would you like to do?</h4>
+    <div id="manage-student" class="py-4">
+      <!-- Student Management -->
+      <h3 class="font-weight-lighter">Student management</h3>
+      <div class="border-top pt-4 px-4 row pb-4">
+        <!-- Create a student -->
+        <div [routerLink]="['/forms/add/student']" class="col-sm-3 m-2 clickable card shadow">
+          <div class="card-body">
+            <h5 class="card-title">Create a New Student</h5>
+            <h6 class="card-subtitle mb-2 text-muted">Student Management</h6>
+            <p class="card-text">Add a new student to our records</p>
+            <a href="#" class="card-link">Create</a>
+          </div>
+        </div>
+        <!-- Add a student to a course -->
+        <div [routerLink]="['/forms/add/student-to-course']" class="col-sm-3 m-2 clickable card shadow">
+          <div class="card-body">
+            <h5 class="card-title">Enroll Student to a Course</h5>
+            <h6 class="card-subtitle mb-2 text-muted">Student Management</h6>
+            <p class="card-text">Add a course to an existing student's record</p>
+            <a href="#" class="card-link">Add Course</a>
+          </div>
+        </div>
+        <!-- Update a Students grade in a course -->
+        <div [routerLink]="['/forms/update/student-grade']" class="col-sm-3 m-2 clickable card shadow">
+          <div class="card-body">
+            <h5 class="card-title">Update a Student's Grade</h5>
+            <h6 class="card-subtitle mb-2 text-muted">Student Management</h6>
+            <p class="card-text">Change the grade a student has in a specific course</p>
+            <a href="#" class="card-link">Update Grade</a>
+          </div>
+        </div>
+      </div>
+      <div id="manage-course" class="pt-4">
+        <h3 class="font-weight-lighter">Course management</h3>
+        <div class="border-top pt-4 px-4 row">
+          <!-- Add section Class List -->
+          <div [routerLink]="['/forms/add/section']" class="col-sm-3 m-2 clickable card shadow">
+            <div class="card-body">
+              <h5 class="card-title">Create New Section</h5>
+              <h6 class="card-subtitle mb-2 text-muted">Course Management</h6>
+              <p class="card-text">Add a new section to an offered course</p>
+              <a href="#" class="card-link">Remove Student</a>
+            </div>
+          </div>
+          <!-- Update Class List -->
+          <div [routerLink]="['/forms/update/section-students']" class="col-sm-3 m-2 clickable card shadow">
+            <div class="card-body">
+              <h5 class="card-title">Drop Student from Section</h5>
+              <h6 class="card-subtitle mb-2 text-muted">Course Management</h6>
+              <p class="card-text">Remove Student's who have withdrawn/dropped a class</p>
+              <a href="#" class="card-link">Remove Student</a>
+            </div>
+          </div>
+          <!-- Apply Curve to a Class List -->
+          <div [routerLink]="['/forms/update/section-curve']" class="col-sm-3 m-2 clickable card shadow">
+            <div class="card-body">
+              <h5 class="card-title">Apply a Curve to a Section</h5>
+              <h6 class="card-subtitle mb-2 text-muted">Course Management</h6>
+              <p class="card-text">Increase overall class performance</p>
+              <a href="#" class="card-link">Apply Curve</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="manage-professor" class="pt-4">
+        <h3 class="font-weight-lighter">Professor Management</h3>
+        <div class="border-top pt-4 px-4 row">
+          <!-- Create a student -->
+          <div [routerLink]="['/forms/add/professor']" class="col-sm-3 m-2 clickable card shadow">
+            <div class="card-body">
+              <h5 class="card-title">Create a New Professor</h5>
+              <h6 class="card-subtitle mb-2 text-muted">Professor Management</h6>
+              <p class="card-text">Add a new professor to our professor records</p>
+              <a href="#" class="card-link">Create</a>
+            </div>
+          </div>
+          <!-- Add section Class List -->
+          <div [routerLink]="['/forms/update/prof-section-add']" class="col-sm-3 m-2 clickable card shadow">
+            <div class="card-body">
+              <h5 class="card-title">Assign Professor to a Section</h5>
+              <h6 class="card-subtitle mb-2 text-muted">Professor Management</h6>
+              <p class="card-text">Allocate a professor to an offered section</p>
+              <a href="#" class="card-link">Assign Professor</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="currentTabIndex == 1">
+  <div class="my-4 animated animatedFadeInUp fadeInUp position-relative" style="height: 75vh;">
+    <app-student-table [dataSource$]="studentData$"></app-student-table>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="currentTabIndex == 2">
+  <div class="my-4 animated animatedFadeInUp fadeInUp">
+    <app-course-table [dataSource$]="courseData$"></app-course-table>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="currentTabIndex == 3">
+  <div class="my-4 animated animatedFadeInUp fadeInUp">
+    <app-professor-table [dataSource$]="professorData$"></app-professor-table>
+  </div>
+</ng-container>
