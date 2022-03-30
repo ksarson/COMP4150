@@ -1,0 +1,1 @@
+drop table student_records, section_records, course, professor, student, department, room cascade;
