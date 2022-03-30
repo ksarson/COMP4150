@@ -1,0 +1,123 @@
+<nav class="navbar navbar-accent bg-secondary text-white" style="padding: 0.25em 0.5em;">
+    <a class="nav-link" [routerLink]="['/']" [state]="{tab:0}"> <img src="/assets/img/left-arrow.svg" width="30"
+        height="30" class="d-inline-block align-top" alt="Go back" style="filter: invert(100%)"></a>
+  </nav>
+  <div class="animated animatedFadeInUp fadeInUp" style="background-color: rgb(250, 250, 250); min-height: 100vh;">
+    <div class="m-auto py-4" style="width: 80%">
+      <h2 class="font-weight-lighter">Update Student's Grade</h2>
+    </div>
+    <div class="m-auto bg-white shadow" style="width:80%">
+      <mat-vertical-stepper [linear]="true" #stepper>
+        <mat-step [stepControl]="firstFormGroup">
+          <form [formGroup]="firstFormGroup">
+            <!-- Select Student -->
+            <ng-template matStepLabel>Select a Student</ng-template>
+            <div class="w-50">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Student List</mat-label>
+                <mat-select class="w-100" formControlName="selectStudent">
+                  <mat-option *ngFor="let student of studentList$.value" [value]="student">
+                    <span class="font-weight-bold">{{student.last_name}}</span>, {{student.first_name}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <h5 class="font-weight-lighter">Selected Student</h5>
+            <div class="p-4 d-inline-block">
+              <mat-form-field appearance="outline">
+                <mat-label>First Name</mat-label>
+                <input matInput placeholder="" formControlName="firstName" required>
+              </mat-form-field>
+            </div>
+            <div class="d-inline-block">
+              <mat-form-field appearance="outline">
+                <mat-label>Last Name</mat-label>
+                <input matInput placeholder="" formControlName="lastName" required>
+              </mat-form-field>
+            </div>
+            <div class="d-inline-block px-4" *ngIf="selectedStudent">
+              <h6>SID: {{selectedStudent?.student_id}}</h6>
+              <h6>Email: {{selectedStudent?.email}}</h6>
+            </div>
+            <div>
+              <button class="btn btn-sm btn-primary" matStepperNext>Next</button>
+            </div>
+          </form>
+        </mat-step>
+        <mat-step [stepControl]="secondFormGroup">
+          <ng-template matStepLabel>Select Course</ng-template>
+          <form [formGroup]="secondFormGroup">
+            <div class="w-100 px-4">
+              <mat-form-field appearance="outline" class="w-50">
+                <mat-label>Course List</mat-label>
+                <mat-select formControlName="course" class="w-100">
+                  <mat-option *ngFor="let course of studentCourses" [value]="course" [disabled]="checkCourse(course)">
+                    <span class="font-weight-bold">{{course.course_id}}</span> - {{course.course_name}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div>
+              <button class="btn btn-sm btn-secondary mr-2" matStepperPrevious>Back</button>
+              <button class="btn btn-sm btn-primary" matStepperNext>Next</button>
+            </div>
+          </form>
+        </mat-step>
+        <mat-step [stepControl]="thirdFormGroup">
+            <ng-template matStepLabel>Update Grade</ng-template>
+            <form [formGroup]="thirdFormGroup">
+              <div class="p-4 d-inline-block">
+                <h4 class="font-weight-lighter">
+                  Current Grade: <span class="font-weight-bold">{{secondFormGroup.get('course').value.grade}}</span>%
+                </h4>
+              </div>
+                <div class="p-4 d-inline-block">
+                    <mat-form-field appearance="outline">
+                      <mat-label>New Grade</mat-label>
+                      <input matInput placeholder="" formControlName="grade" required>
+                    </mat-form-field>
+                  </div>
+              <div>
+                <button class="btn btn-sm btn-secondary mr-2" matStepperPrevious>Back</button>
+                <button class="btn btn-sm btn-primary" matStepperNext>Next</button>
+              </div>
+            </form>
+          </mat-step>
+        <mat-step>
+          <ng-template matStepLabel>Review</ng-template>
+          <div class="pt-4">
+            <h4 class="font-weight-lighter">Name: <span
+                class="font-weight-bold">{{firstFormGroup.get('lastName').value}}</span>,
+              {{firstFormGroup.get('firstName').value}}</h4>
+          </div>
+          <div class="pb-4">
+              <h4 class="font-weight-lighter">Course: <span
+                  class="font-weight-bold">{{secondFormGroup.get('course').value.course_name}}</span>
+              </h4>
+          </div>
+          <div>
+              <h5 class="font-weight-lighter">New Grade: <span
+                  class="font-weight-bold">{{thirdFormGroup.get('grade').value}}</span>%
+              </h5>
+          </div>
+          <div>
+              <h5 class="font-weight-lighter">Old Grade: <span
+                  class="font-weight-lighter">{{secondFormGroup.get('course').value.grade}}</span>%
+              </h5>
+          </div>
+          <div>
+            <button mat-button matStepperPrevious>Back</button>
+            <button class="btn btn-sm btn-success" matStepperNext (click)="submit()">Submit</button>
+          </div>
+        </mat-step>
+        <mat-step>
+          <ng-template matStepLabel>Done</ng-template>
+          <h4>You are now done.</h4>
+          <div>
+            <button [routerLink]="['/']" mat-button class="btn btn-sm btn-success mr-2">Go back Home</button>
+            <button (click)="openStudent()" mat-button class="btn btn-sm btn-success">View Student</button>
+          </div>
+        </mat-step>
+      </mat-vertical-stepper>
+    </div>
+  </div>

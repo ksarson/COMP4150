@@ -1,0 +1,61 @@
+<nav class="navbar navbar-accent bg-secondary text-white" style="padding: 0.25em 0.5em;">
+  <a class="nav-link" [routerLink]="['/']" [state]="{tab:0}"> <img src="/assets/img/left-arrow.svg" width="30"
+      height="30" class="d-inline-block align-top" alt="Go back" style="filter: invert(100%)"></a>
+</nav>
+<div class="animated animatedFadeInUp fadeInUp" style="background-color: rgb(250, 250, 250); min-height: 100vh;">
+  <div class="m-auto py-4" style="width: 80%">
+    <h2 class="font-weight-lighter">Apply Curve to a Section</h2>
+  </div>
+  <div class="m-auto bg-white shadow" style="width:80%">
+    <mat-vertical-stepper [linear]="false" #stepper>
+      <mat-step [stepControl]="firstFormGroup">
+        <form [formGroup]="firstFormGroup">
+          <ng-template matStepLabel>Course Select</ng-template>
+          <div class="w-50">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Course List</mat-label>
+              <mat-select class="w-100" formControlName="selectCourse">
+                <mat-option *ngFor="let course of courseList$.value" [value]="course">
+                  <span class="font-weight-bold">{{course.course_id}}</span> - {{course.course_name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="w-25">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Section List</mat-label>
+              <mat-select class="w-100" formControlName="selectSection">
+                <mat-option *ngFor="let section of sectionList$.value" [value]="section" [disabled]="check(section)">
+                  <span class="font-weight-bold">{{section.section_id}}</span> - <span class="font-weight-bold">{{section.semester}}</span>{{section.year}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div>
+            <button class="btn btn-sm btn-primary" matStepperNext>Next</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step [stepControl]="secondFormGroup">
+        <form [formGroup]="secondFormGroup" class="w-100">
+          <ng-template matStepLabel>Review</ng-template>
+          <h4 class="text-warning">You are about apply a 5% curve to the following </h4>
+          <h5>Course: {{firstFormGroup.get('selectCourse').value.course_name}} - {{firstFormGroup.get('selectSection').value.semester}}{{firstFormGroup.get('selectSection').value.year}}</h5>
+          <h5 class="font-weight-lighter">Current Section Average: <span class="font-weight-bold">{{sectionAvg | number}}%</span></h5>
+          <div>
+            <button mat-button matStepperPrevious>Back</button>
+            <button class="btn btn-success" (click)="submit()" matStepperNext>Apply Curve</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step>
+        <ng-template matStepLabel>Done</ng-template>
+        <h4>You are now done.</h4>
+        <div>
+          <button [routerLink]="['/']" mat-button class="btn btn-sm btn-secondary">Go back Home</button>
+          <button (click)="navigate()" mat-button class="btn ml-4 btn-success">View Section</button>
+        </div>
+      </mat-step>
+    </mat-vertical-stepper>
+  </div>
+</div>

@@ -1,0 +1,129 @@
+<nav class="navbar navbar-accent bg-secondary text-white" style="padding: 0.25em 0.5em;">
+  <a class="nav-link" [routerLink]="['/']" [state]="{tab:0}"> <img src="/assets/img/left-arrow.svg" width="30"
+      height="30" class="d-inline-block align-top" alt="Go back" style="filter: invert(100%)"></a>
+</nav>
+<div class="animated animatedFadeInUp fadeInUp" style="background-color: rgb(250, 250, 250); min-height: 100vh;">
+  <div class="m-auto py-4" style="width: 80%">
+    <h2 class="font-weight-lighter">Add a New Section</h2>
+  </div>
+  <div class="m-auto bg-white shadow" style="width:80%">
+    <mat-vertical-stepper [linear]="true" #stepper>
+      <mat-step [stepControl]="firstFormGroup">
+        <form [formGroup]="firstFormGroup">
+          <ng-template matStepLabel>Course Select</ng-template>
+          <div class="w-50">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Course List</mat-label>
+              <mat-select class="w-100" formControlName="selectCourse">
+                <mat-option *ngFor="let course of courseList$.value" [value]="course">
+                  <span class="font-weight-bold">{{course.course_id}}</span> - {{course.course_name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div>
+            <button class="btn btn-sm btn-primary" matStepperNext>Next</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step [stepControl]="secondFormGroup">
+        <form [formGroup]="secondFormGroup" class="w-100">
+          <ng-template matStepLabel>Professor Select</ng-template>
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Professor</mat-label>
+            <mat-select formControlName="selectProfessor" class="w-100">
+              <mat-option *ngFor="let professor of professorList$.value" [value]="professor" [disabled]="checkProfessor(professor)">
+                <span class="font-weight-bold">{{professor.last_name}}</span>, {{professor.first_name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div>
+            <button class="btn btn-sm btn-secondary mr-2" matStepperPrevious>Back</button>
+            <button class="btn btn-sm btn-primary" matStepperNext>Next</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step [stepControl]="thirdFormGroup">
+        <form [formGroup]="thirdFormGroup" class="w-100">
+          <ng-template matStepLabel>Time and Location Select</ng-template>
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Location</mat-label>
+            <mat-select formControlName="selectRoom" class="w-100">
+              <mat-option *ngFor="let room of roomList$.value" [value]="room">
+                <span class="font-weight-bold pr-4">{{room.building}}-{{room.room_num}}</span> <span>Max
+                  Capacity: {{room.capacity}} students</span>
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div class="mx-2 d-inline-block">
+            <mat-form-field appearance="outline">
+              <mat-label>Meeting Day</mat-label>
+              <mat-select formControlName="selectDay">
+                <mat-option *ngFor="let day of dayList" [value]="day">
+                  {{day}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="mx-2 d-inline-block">
+            <mat-form-field appearance="outline">
+              <mat-label>Meeting Start Time</mat-label>
+              <mat-select formControlName="selectStart">
+                <mat-option *ngFor="let time of startList" [value]="time">
+                  {{time}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="mx-2 d-inline-block">
+            <mat-form-field appearance="outline">
+              <mat-label>Meeting End Time</mat-label>
+              <mat-select formControlName="selectEnd">
+                <mat-option *ngFor="let time of endList" [value]="time">
+                  {{time}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div>
+            <button class="btn btn-sm btn-secondary mr-2" matStepperPrevious>Back</button>
+            <button class="btn btn-sm btn-primary" matStepperNext>Next</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step>
+        <ng-template matStepLabel>Review</ng-template>
+        <div class="p-4">
+          <h4 class="text-success">You are about to add the following selection</h4>
+          <h4 class="font-weight-lighter">Course: <span
+              class="font-weight-bold">{{firstFormGroup.get('selectCourse').value.course_id}}</span> -
+            {{firstFormGroup.get('selectCourse').value.course_name}}</h4>
+          <h4 class="font-weight-lighter mb-4">Professor: <span
+              class="font-weight-bold">{{secondFormGroup.get('selectProfessor').value.last_name}}</span>,
+            {{secondFormGroup.get('selectProfessor').value.first_name}}</h4>
+
+          <h5 class="font-weight-lighter">Location: <span
+              class="font-weight-bold">{{thirdFormGroup.get('selectRoom').value.building}}-{{thirdFormGroup.get('selectRoom').value.room_num}}</span>
+          </h5>
+          <h5 class="font-weight-lighter">Meeting Time: <span
+              class="font-weight-bold">{{thirdFormGroup.get('selectDay').value}}</span> <span class="pl-2">{{thirdFormGroup.get('selectStart').value}} - {{thirdFormGroup.get('selectEnd').value}}</span>
+          </h5>
+          <h5 class="font-weight-lighter mb-4">Max Capacity: <span
+            class="font-weight-bold">{{thirdFormGroup.get('selectRoom').value.capacity}}</span> students
+        </h5>
+        </div>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button class="btn btn-sm btn-success" matStepperNext (click)="submit()">Submit</button>
+        </div>
+      </mat-step>
+      <mat-step>
+        <ng-template matStepLabel>Done</ng-template>
+        <h4>You are now done.</h4>
+        <div>
+          <button [routerLink]="['/']" mat-button class="btn btn-sm btn-success">Go back Home</button>
+        </div>
+      </mat-step>
+    </mat-vertical-stepper>
+  </div>
+</div>
